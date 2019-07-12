@@ -1,0 +1,263 @@
+.btn {
+	display: inline-block;
+	font-size: 14px;
+    font-family: $font-reg;
+	background-color: $btn-bg;
+	border: 1px solid $btn-border;
+	color: $btn-color-1;
+	padding: 6px 16px;
+	text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+	cursor: pointer;
+	outline: none;
+	white-space: nowrap;
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+	transition: background-color 0.2s ease-in-out;
+
+	&.add {
+		position: fixed;
+		right: 60px;
+		bottom: 80px;
+		padding: 0;
+		font-size: 44px;
+		display: block;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		z-index: 10;
+	}
+
+	&.close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		padding: 0;
+		display: block;
+		width: 25px;
+		height: 25px;
+		background-color: transparent;
+		border: none;
+		z-index: 10;
+		background-image: url('../img/close.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		transition: transform 0.2s ease-in-out;
+	}
+
+	&.edit {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		width: 26px;
+		height: 26px;
+		background-image: url('../img/edit.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 15px;
+	}
+
+	&.save {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		width: 26px;
+		height: 26px;
+		background-image: url('../img/save.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 15px;
+	}
+
+	&.delete {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		width: 26px;
+		height: 26px;
+		background-image: url('../img/delete.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 15px;
+	}
+
+	&.submit {
+		padding: 10px 32px;
+		font-size: 16px;
+	}
+}
+
+.btn:hover {
+	color: $btn-color-2;
+    background-color: transparent;
+    border: 1px solid $btn-border;
+}
+
+.btn.close:hover {
+	color: $btn-color-2;
+    background-color: transparent;
+	border: none;
+	transform: rotate(180deg);
+}
+
+.btn.edit:hover {
+    border: none;
+}
+
+.btn.delete:hover {
+    border: none;
+}
+
+.btn.save:hover {
+    border: none;
+}
+
+.sub-menu {
+	position: relative;
+}
+
+.list-manager {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	transform: rotateX(90deg);
+	transform-origin: top;
+	transition: all 0.2s ease-in-out;
+
+	li {
+		flex: 1;
+		display: inline-block;
+	}
+}
+
+.add-manager,
+.del-manager {
+	& > .btn {
+		display: block;
+		font-size: 30px;
+		padding: 0 10px;
+		font-weight: 500;
+	}
+}
+
+.add-manager {
+	& > .btn {
+		color: green;
+	}
+
+	&:hover {
+		& > .btn {
+			color: #fff;
+			background-color: #00c000;
+		}
+	}
+}
+
+.del-manager {
+	& > .btn {
+		color: red;
+
+		span {
+			display: block;
+			transform: rotate(-45deg);
+		}
+	}
+
+	&:hover {
+		& > .btn {
+			color: #fff;
+			background-color: #f55;
+		}
+	}
+}
+
+.sub-menu {
+	&:hover {
+		& > .btn {
+			color: #fff;
+			background-color: #2cc6ff;
+		}
+
+		.list-manager {
+			transform: rotateX(0deg);
+		}
+	}
+
+	.list-manager-delete {
+		position: absolute;
+		left: 100%;
+		top: 0;
+		transform: rotateY(90deg);
+		transform-origin: left;
+		transition: all 0.2s ease-in-out;
+
+		li {
+			display: block;
+			height: 30px;
+
+			a {
+				height: 100%;
+				width: 100%;
+				transition: all 0.2s ease-in-out;
+
+				&:hover {
+					background-color: #2cc6ff;
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.del-manager {
+		&:hover {
+			.list-manager-delete {
+				transform: rotateY(0deg);
+			}
+		}
+	}
+}
+
+.sub-menu .list-manager-delete {
+	li {
+		a {
+			position: relative;
+
+			&:before,
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				width: 0;
+				height: 100%;
+				background-color: rgba(255, 0, 0, 0.08);
+				transition: width 0.2s ease-in-out;
+			}
+
+			&:before {
+				left: 0;
+				transform-origin: top left;
+			}
+
+			&:after {
+				right: 0;
+				transform-origin: top right;
+			}
+		}
+
+		&:hover {
+			a {
+				&:before,
+				&:after {
+					width: 50%;
+				}
+			}
+
+		}
+	}
+}

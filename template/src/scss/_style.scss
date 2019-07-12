@@ -1,0 +1,25 @@
+.tableList {
+  max-width: 400px;
+  margin: 3vw auto;
+  background-color: #fff674;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 5px;
+    border: 1px double #aaa;
+  }
+}
+
+.sort-icon {
+    color: #375DA1;
+    font-size: 20pt;
+}
+.cancel-icon {
+    color: darkred;
+    font-size: 20pt;
+}
