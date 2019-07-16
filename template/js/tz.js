@@ -1,41 +1,16 @@
 Vue.component('Property', {
     template: '#Property',
-    props: ['config', 'properties'],
+    props: ['config', 'counter'],
     data () {
         return {
             selected: {},
             order: '',
             priority: '',
-            property: ''
+            property: '',
         }
     },
     methods: {
-        removeData () {
-            this.$emit('delete-data')
-        },
-        checkOnDisabled (val) {
-            this.priority = val.priority
-            this.property = val.name
-            this.order = val.orderTypeDefault
-            this.setData()
-        },
-        setData () {
-            this.$emit('data-info', {
-                order: this.order,
-                priority: this.priority,
-                property: this.property,
-                isChecked: true
-            })
-        },
-        hasDuplicate (property) {
-            return this.properties.some((el) => {
-                return el.property === property
-            })
-        },
-        changeOrder () {
-            this.order = this.order === 'ASC' ? 'DESC' : 'ASC';
-            this.setData()
-        }
+
     }
 });
 
@@ -44,7 +19,6 @@ new Vue({
     el: '#app',
     data () {
         return {
-            properties: [],
             config: [{
                 "name": "affiliate",
                 "title": "Affiliate",
@@ -82,67 +56,20 @@ new Vue({
                 "priority": 7
             }],
             isNotDisabled: true,
-            selectedElements: {},
-            isNotEmptyRow: false
+            countRow: 0,
         }
     },
     watch: {
-        properties (newVal, oldVal) {
-            this.isNotDisabled = newVal.every((item) => {
-                if (item.hasOwnProperty('id')) {
-                return (item.hasOwnProperty('property'))
-            } else {
-                return false
-            }
-        })  && newVal.length >= 0
-        }
+
     },
     computed: {
-        propertiesCount () {
-            let count  = 0
-            this.properties.forEach((item) => {
-                count += item.property ? 1 : 0
-        });
-            return count
-        }
+
     },
     methods: {
         addProperty () {
-            this.isNotDisabled = this.propertiesCount > 0 && this.propertiesCount >= this.config.length
-            this.properties.push({
-                id: ++ID
-            })
+            //this.isNotDisabled = false;
+            this.countRow++;
         },
 
-        onDeleteProperty (id) {
-            this.properties = this.properties.filter((item) => {
-                return item.id !== id
-            });
-            this.updateSelectedElements()
-        },
-
-        onGetDataInfo (index, dateInfo) {
-            this.isNotDisabled = this.propertiesCount < this.config.length - 1 ? dateInfo.isChecked : false
-            Object.assign(this.properties[index], {
-                'order': dateInfo.order,
-                'priority': dateInfo.priority,
-                'property': dateInfo.property
-            });
-            Vue.set(this.properties, this.properties)
-            this.updateSelectedElements()
-        },
-
-        sort () {
-            console.log('this.properties', this.properties)
-        },
-        updateSelectedElements () {
-            let selectedElements = {}
-            for (let i = 0; i < this.properties.length; i++) {
-                if (this.properties[i].hasOwnProperty('property')) {
-                    selectedElements[this.properties[i]['property']] = true
-                }
-            }
-            this.selectedElements = selectedElements
-        }
     }
 });
