@@ -1,0 +1,41 @@
+.row {
+    margin-left: -8px;
+    margin-right: -8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+$col-step: 12;
+
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+@for $i from 1 through $col-step {
+    $calc: #{100% / 12 * $i};
+
+    .col-#{$i} {
+        flex: 0 0 $calc;
+        max-width: $calc;
+    }
+}
+
+@for $i from 1 through $col-step {
+    $calc: #{100% / 12 * $i};
+
+    .offset-#{$i} {
+        margin-left: $calc;
+    }
+}

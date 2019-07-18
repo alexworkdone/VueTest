@@ -1,20 +1,34 @@
-Vue.component('Property', {
-    template: '#Property',
-    props: ['config', 'counter'],
+Vue.component('proper', {
+    template: '#proper',
+    props: ['config', 'count'],
     data () {
         return {
-            selected: {},
-            order: '',
-            priority: '',
-            property: '',
+            selected: ''
         }
     },
     methods: {
+        checkSelected(obg) {
+            this.$emit('add-selected-in-arr', obg.name);  // добавляем в список выбранный елемент 'name'
+            this.$emit('show-add-btn');  // включаем кнопку для добавления нового поля
+            this.setData();
+        },
+        setData () {
+
+        },
+        removeData() {
+            this.$emit('delete-row-data');
+        },
+        changeOrder() {
+            this.selected.orderTypeDefault = (this.selected.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
+
+        }
+    },
+    computed: {
 
     }
 });
 
-let ID = 0;
+
 new Vue({
     el: '#app',
     data () {
@@ -57,6 +71,7 @@ new Vue({
             }],
             isNotDisabled: true,
             countRow: 0,
+            listSelected: [],
         }
     },
     watch: {
@@ -67,8 +82,12 @@ new Vue({
     },
     methods: {
         addProperty () {
-            //this.isNotDisabled = false;
             this.countRow++;
+            this.isNotDisabled = false;
+        },
+        addSelectedInArr(index, name) {
+            this.listSelected[index] = name;
+            console.log(this.listSelected);
         },
 
     }

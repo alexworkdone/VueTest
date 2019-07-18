@@ -2,86 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Properties Form</title>
+    <title>TZ</title>
     <link rel="icon" href="/template/img/favicon.png" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
           integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-    <link rel="stylesheet" href="/template/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="/css/bundle.min.css">-->
+    <link rel="stylesheet" href="/template/css/bundle.min.css">
 </head>
 
 <body>
-    <template id="Property">
-        <div class="row">
-            <div class="col-10">
-                <div class="card text-center bg-light">
-                    <div class="row">
-                        <div class="col-1 mt-4 mb-3">
-                            {{ counter }}
-                        </div>
-                        <div class="col-10 mt-3 mb-3">
-                            <select v-model="selected" :plain="true" class="form-control"
-                                    @change="checkOnDisabled(selected)">
-                                <option
-                                        v-for="(item, index) in config"
-                                        :key="index"
-                                >
-                                    {{ item.title }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-1 mt-3 mb-3">
-                            <span @click="changeOrder" v-if="order == 'ASC'">
-                              <i class="fas fa-sort-amount-down sort-icon mt-1"></i>
-                            </span>
-                            <span @click="changeOrder" v-if="order == 'DESC'">
-                              <i class="fas fa-sort-amount-up sort-icon mt-1"></i>
-                            </span>
-                        </div>
-                    </div>
+    <template id="proper">
+        <div class="row row-list">
+            <div class="col-1">
+                <div class="flex-center">
+                    {{ count }}
                 </div>
             </div>
-            <br>
-            <div class="col-2 align-middle mt-4">
-           <!--<span @click="removeData">
-               <i class="fas fa-times cancel-icon"></i>
-           </span>-->
+            <div class="col-8">
+                <select v-model="selected" class="form-control"
+                        @change="checkSelected(selected)">
+                    <option
+                            v-for="(item, index) in config"
+                            :key="index"
+                            :value="item"
+                            :disabled="$parent.listSelected.hasOwnProperty(item.name)"
+                    >
+                        {{ item.title }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-2">
+                <div class="flex-center sort-icon" @click="changeOrder">
+                    <i v-if="(selected.orderTypeDefault === 'ASC') || (selected.orderTypeDefault === 'DESC')" :class="`fas fa-sort-amount-${(selected.orderTypeDefault === 'ASC') ? 'down' : 'up'}`"></i>
+                </div>
+            </div>
+            <div class="col-1 align-center">
+                <div class="flex-center cancel-icon" @click="removeData">
+                   <i class="fas fa-times"></i>
+                </div>
             </div>
         </div>
     </template>
     
     <div id="app">
-        <div class="container">
+        <div class="wrap">
             <form>
                 <div class="row">
                     <div class="col-8 offset-1">
-                        <b>Properties</b>
+                        <div class="title">Properties</div>
                     </div>
                     <div class="col-2">
-                        <b>Order</b>
+                        <div class="title align-center">Order</div>
                     </div>
                 </div>
+                <section>
+                    <template v-for="(item, index) in config">
+                        <proper
+                                :config="config"
+                                :key="index"
+                                :count="index+1"
+                                v-if="index+1 <= countRow"
+                                @show-add-btn="isNotDisabled = true"
+                                @add-selected-in-arr="addSelectedInArr(index, $event)"
+                        /><!--                                @delete-row-data="onDeleteProperty(n.id)"-->
+                        <!--                                @data-row="onGetData(index, $event)"-->
+                        <!--                                -->
+                    </template>
+                </section>
                 <div class="row">
-                    <div class="col">
-                        <template v-for="(item, index) in config">
-                            <Property
-                                    :config="config"
-                                    :key="index"
-                                    :counter="index+1"
-                                    v-if="index+1 <= countRow"
-                            />
-                        </template>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <button class="btn btn-outline-success" @click.prevent="addProperty" :disabled="!isNotDisabled">
+                    <div class="col-6 align-right">
+                        <button class="btn btn-big btn-success btn-icon-left" @click.prevent="addProperty" :disabled="!isNotDisabled">
                             <i class="fas fa-plus-circle"></i>
                             Add property
                         </button>
                     </div>
                     <div class="col-6">
-                        <button class="btn btn-primary" @click.prevent="sort">
+                        <button class="btn btn-big btn-general" @click.prevent="sort">
                             Sort
                         </button>
                     </div>

@@ -1,263 +1,385 @@
+/* --- buttons --- */
 .btn {
-	display: inline-block;
-	font-size: 14px;
-    font-family: $font-reg;
-	background-color: $btn-bg;
-	border: 1px solid $btn-border;
-	color: $btn-color-1;
-	padding: 6px 16px;
-	text-decoration: none;
-    text-transform: uppercase;
+    margin: 8px;
+}
+
+.btn {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 2px;
+    font-weight: 400;
+    line-height: 1;
     text-align: center;
-	cursor: pointer;
-	outline: none;
-	white-space: nowrap;
-    -webkit-appearance: none;
-    -moz-appearance:    none;
-    appearance:         none;
-	transition: background-color 0.2s ease-in-out;
+    text-decoration: none;
 
-	&.add {
-		position: fixed;
-		right: 60px;
-		bottom: 80px;
-		padding: 0;
-		font-size: 44px;
-		display: block;
-		width: 60px;
-		height: 60px;
-		border-radius: 50%;
-		z-index: 10;
-	}
+    overflow: hidden;
+    z-index: 0;
+    cursor: pointer;
 
-	&.close {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		padding: 0;
-		display: block;
-		width: 25px;
-		height: 25px;
-		background-color: transparent;
-		border: none;
-		z-index: 10;
-		background-image: url('../img/close.svg');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: contain;
-		transition: transform 0.2s ease-in-out;
-	}
+    transition: all 0.2s ease-in-out;
 
-	&.edit {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-		width: 26px;
-		height: 26px;
-		background-image: url('../img/edit.svg');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 15px;
-	}
+    &:active {
+        transition: none;
+    }
 
-	&.save {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-		width: 26px;
-		height: 26px;
-		background-image: url('../img/save.svg');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 15px;
-	}
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        overflow: hidden;
+        width: 0;
+        height: 100%;
+        opacity: 0;
+        z-index: -1;
+        transform: translateX(-50%);
+        transition: translateX 0.3s, width 0.3s, opacity 0.3s, background-color 0.3s;
+    }
 
-	&.delete {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-		width: 26px;
-		height: 26px;
-		background-image: url('../img/delete.svg');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 15px;
-	}
+    &:hover,
+    &.active {
+        &:after {
+            width: calc(100% + 2px);
+            opacity: 1;
+        }
+    }
 
-	&.submit {
-		padding: 10px 32px;
-		font-size: 16px;
-	}
+    &.active {
+        cursor: default;
+    }
+
+    & > span {
+        flex: 1;
+    }
 }
 
-.btn:hover {
-	color: $btn-color-2;
-    background-color: transparent;
-    border: 1px solid $btn-border;
+$name: 'small' !default;
+@mixin btn($name) {
+    @if $name == 'super-small' {
+        .btn-#{$name} {
+            padding: 2px 8px;
+            font-size: 10px;
+            min-height: 16px;
+
+            &.btn-icon {
+                padding: 4px;
+
+                &-left {
+                    & > .fas {
+                        margin-right: 8px;
+                    }
+                }
+
+                &-right {
+                    & > .fas {
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+    @else if $name == 'small' {
+        .btn-#{$name} {
+            padding: 4px 16px;
+            font-size: 12px;
+            min-height: 24px;
+
+            &.btn-icon {
+                padding: 5px;
+
+                &-left {
+                    & > .fas {
+                        margin-right: 10px;
+                    }
+                }
+
+                &-right {
+                    & > .fas {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+    @else if $name == 'medium' {
+        .btn-#{$name} {
+            padding: 8px 24px;
+            font-size: 14px;
+            min-height: 32px;
+
+            &.btn-icon {
+                padding: 10px;
+
+                &-left {
+                    & > .fas {
+                        margin-right: 10px;
+                    }
+                }
+
+                &-right {
+                    & > .fas {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+    @else if $name == 'big' {
+        .btn-#{$name} {
+            padding: 12px 30px;
+            font-size: 14px;
+            min-height: 40px;
+
+            &.btn-icon {
+                padding: 12px;
+
+                &-left {
+                    & > .fas {
+                        margin-right: 12px;
+                    }
+                }
+
+                &-right {
+                    & > .fas {
+                        margin-left: 12px;
+                    }
+                }
+            }
+        }
+    }
 }
 
-.btn.close:hover {
-	color: $btn-color-2;
-    background-color: transparent;
-	border: none;
-	transform: rotate(180deg);
+@include btn('super-small');
+@include btn('small');
+@include btn('medium');
+@include btn('big');
+
+$color-name: 'white' !default;
+@mixin color-btn($color-name) {
+    @if $color-name == 'white' {
+        .btn-#{$color-name} {
+            background-color: transparent;
+            border: 1px solid $border-color;
+            color: $btn-white;
+
+            &:after {
+                background-color: #D7EBFF;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.06);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                color: $btn-white;
+            }
+        }
+    }
+    @else if $color-name == 'transp' {
+        .btn-#{$color-name} {
+            &:after {
+                background-color: #d7ebff;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.06);
+                }
+            }
+        }
+    }
+    @else if $color-name == 'danger' {
+        .btn-#{$color-name} {
+            background-color: $btn-danger;
+            color: #fff;
+
+            &:after {
+                background-color: #F76666;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    background-color: $btn-danger;
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                border: 1px solid $btn-danger;
+                color: $btn-danger;
+
+                &:hover {
+                    border-color: #F76666;
+                    color: #fff;
+                }
+
+                &:active {
+                    border-color: $btn-danger;
+                }
+            }
+        }
+    }
+    @else if $color-name == 'general' {
+        .btn-#{$color-name} {
+            background-color: $btn-general;
+            color: #fff;
+
+            &:after {
+                background-color: #4E82D4;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    background-color: $btn-general;
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                border: 1px solid $btn-general;
+                color: $btn-general;
+
+                &:hover {
+                    border-color: #4E82D4;
+                    color: #fff;
+                }
+
+                &:active {
+                    border-color: $btn-general;
+                }
+            }
+        }
+    }
+    @else if $color-name == 'info' {
+        .btn-#{$color-name} {
+            background-color: $btn-info;
+            color: #fff;
+
+            &:after {
+                background-color: #45D5D5;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    background-color: $btn-info;
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                border: 1px solid $btn-info;
+                color: $btn-info;
+
+                &:hover {
+                    border-color: #45D5D5;
+                    color: #fff;
+                }
+
+                &:active {
+                    border-color: $btn-info;
+                }
+            }
+        }
+    }
+    @else if $color-name == 'success' {
+        .btn-#{$color-name} {
+            background-color: $btn-success;
+            color: #fff;
+
+            &:after {
+                background-color: #5AD895;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    background-color: $btn-success;
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                border: 1px solid $btn-success;
+                color: $btn-success;
+
+                &:hover {
+                    border-color: #5AD895;
+                    color: #fff;
+                }
+
+                &:active {
+                    border-color: $btn-success;
+                }
+            }
+        }
+    }
+    @else if $color-name == 'warning' {
+        .btn-#{$color-name} {
+            background-color: $btn-warning;
+            color: #fff;
+
+            &:after {
+                background-color: #F4A832;
+            }
+
+            &:active,
+            &.active {
+                &:after {
+                    background-color: $btn-warning;
+                    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            &.invert {
+                background-color: transparent;
+                border: 1px solid $btn-warning;
+                color: $btn-warning;
+
+                &:hover {
+                    border-color: #F4A832;
+                    color: #fff;
+                }
+
+                &:active {
+                    border-color: $btn-warning;
+                }
+            }
+        }
+    }
+    @else if $color-name == 'disabled' {
+        .btn-#{$color-name}, .#{$color-name}, .btn[disabled] {
+            background-color: $btn-disabled !important;
+            border: 1px solid #EDEDED;
+            color: #A5A5A5;
+            cursor: default;
+            overflow:visible;
+            &:before, &:after {
+                display:none;
+            }
+        }
+    }
 }
 
-.btn.edit:hover {
-    border: none;
-}
-
-.btn.delete:hover {
-    border: none;
-}
-
-.btn.save:hover {
-    border: none;
-}
-
-.sub-menu {
-	position: relative;
-}
-
-.list-manager {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	transform: rotateX(90deg);
-	transform-origin: top;
-	transition: all 0.2s ease-in-out;
-
-	li {
-		flex: 1;
-		display: inline-block;
-	}
-}
-
-.add-manager,
-.del-manager {
-	& > .btn {
-		display: block;
-		font-size: 30px;
-		padding: 0 10px;
-		font-weight: 500;
-	}
-}
-
-.add-manager {
-	& > .btn {
-		color: green;
-	}
-
-	&:hover {
-		& > .btn {
-			color: #fff;
-			background-color: #00c000;
-		}
-	}
-}
-
-.del-manager {
-	& > .btn {
-		color: red;
-
-		span {
-			display: block;
-			transform: rotate(-45deg);
-		}
-	}
-
-	&:hover {
-		& > .btn {
-			color: #fff;
-			background-color: #f55;
-		}
-	}
-}
-
-.sub-menu {
-	&:hover {
-		& > .btn {
-			color: #fff;
-			background-color: #2cc6ff;
-		}
-
-		.list-manager {
-			transform: rotateX(0deg);
-		}
-	}
-
-	.list-manager-delete {
-		position: absolute;
-		left: 100%;
-		top: 0;
-		transform: rotateY(90deg);
-		transform-origin: left;
-		transition: all 0.2s ease-in-out;
-
-		li {
-			display: block;
-			height: 30px;
-
-			a {
-				height: 100%;
-				width: 100%;
-				transition: all 0.2s ease-in-out;
-
-				&:hover {
-					background-color: #2cc6ff;
-					color: #fff;
-				}
-			}
-		}
-	}
-
-	.del-manager {
-		&:hover {
-			.list-manager-delete {
-				transform: rotateY(0deg);
-			}
-		}
-	}
-}
-
-.sub-menu .list-manager-delete {
-	li {
-		a {
-			position: relative;
-
-			&:before,
-			&:after {
-				content: '';
-				position: absolute;
-				top: 0;
-				width: 0;
-				height: 100%;
-				background-color: rgba(255, 0, 0, 0.08);
-				transition: width 0.2s ease-in-out;
-			}
-
-			&:before {
-				left: 0;
-				transform-origin: top left;
-			}
-
-			&:after {
-				right: 0;
-				transform-origin: top right;
-			}
-		}
-
-		&:hover {
-			a {
-				&:before,
-				&:after {
-					width: 50%;
-				}
-			}
-
-		}
-	}
-}
+@include color-btn('white');
+@include color-btn('transp');
+@include color-btn('danger');
+@include color-btn('general');
+@include color-btn('info');
+@include color-btn('success');
+@include color-btn('warning');
+@include color-btn('disabled');
