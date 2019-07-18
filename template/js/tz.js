@@ -10,17 +10,13 @@ Vue.component('proper', {
         checkSelected(obg) {
             this.$emit('add-selected-in-arr', obg.name);  // добавляем в список выбранный елемент 'name'
             this.$emit('show-add-btn');  // включаем кнопку для добавления нового поля
-            this.setData();
-        },
-        setData () {
-
         },
         removeData() {
             this.$emit('delete-row-data');
         },
         changeOrder() {
             this.selected.orderTypeDefault = (this.selected.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
-
+            this.$emit('change-data-order', this.selected);
         }
     },
     computed: {
@@ -87,8 +83,17 @@ new Vue({
         },
         addSelectedInArr(index, name) {
             this.listSelected[index] = name;
-            console.log(this.listSelected);
         },
+        onChangeDataOrder(index, datarow) {
+            for(let i=0; i<this.config.length; i++) {
+                if (this.config[i].name === datarow.name) {
+                    this.config[i] = datarow;
+                }
+            }
 
+        },
+        onDeleteProperty(index) {
+
+        }
     }
 });

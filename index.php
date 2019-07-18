@@ -63,9 +63,9 @@
                                 v-if="index+1 <= countRow"
                                 @show-add-btn="isNotDisabled = true"
                                 @add-selected-in-arr="addSelectedInArr(index, $event)"
-                        /><!--                                @delete-row-data="onDeleteProperty(n.id)"-->
-                        <!--                                @data-row="onGetData(index, $event)"-->
-                        <!--                                -->
+                                @delete-row-data="onDeleteProperty(index)"
+                                @change-data-order="onChangeDataOrder(index, $event)"
+                        />
                     </template>
                 </section>
                 <div class="row">
