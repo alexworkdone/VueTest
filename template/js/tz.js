@@ -3,24 +3,29 @@ Vue.component('proper', {
     props: ['config', 'count'],
     data () {
         return {
-            selected: ''
+            selected: '',
         }
     },
     methods: {
         checkSelected(obg) {
-            this.$emit('add-selected-in-arr', obg.name);  // добавляем в список выбранный елемент 'name'
-            this.$emit('show-add-btn');  // включаем кнопку для добавления нового поля
+            this.$emit('add-selected-in-arr', obg);  // добавляем в список выбранный объект
         },
         removeData() {
             this.$emit('delete-row-data');
         },
         changeOrder() {
+            console.log(this.selected);
             this.selected.orderTypeDefault = (this.selected.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
             this.$emit('change-data-order', this.selected);
         }
     },
     computed: {
-
+        visualOrder() {
+            return ((this.selected.orderTypeDefault === 'ASC') || (this.selected.orderTypeDefault === 'DESC'));
+        },
+        typeOrder() {
+            return (this.selected.orderTypeDefault === 'ASC') ? 'down' : 'up';
+        }
     }
 });
 
@@ -66,7 +71,6 @@ new Vue({
                 "priority": 7
             }],
             isNotDisabled: true,
-            countRow: 0,
             listSelected: [],
         }
     },
@@ -78,22 +82,29 @@ new Vue({
     },
     methods: {
         addProperty () {
-            this.countRow++;
             this.isNotDisabled = false;
-        },
-        addSelectedInArr(index, name) {
-            this.listSelected[index] = name;
-        },
-        onChangeDataOrder(index, datarow) {
-            for(let i=0; i<this.config.length; i++) {
-                if (this.config[i].name === datarow.name) {
-                    this.config[i] = datarow;
+            this.listSelected.push(
+                {
+                    "name": '',
+                    "title": '',
+                    "orderTypeDefault": '',
+                    "priority": ''
                 }
-            }
-
+            )
+        },
+        addSelectedInArr(index, obg) {
+            (this.listSelected[index].name === '') ? this.isNotDisabled = true : null;
+            this.listSelected[index].name = obg.name;
+            this.listSelected[index].title = obg.title;
+            this.listSelected[index].orderTypeDefault = obg.orderTypeDefault;
+            this.listSelected[index].priority = obg.priority;
+        },
+        onChangeDataOrder(index, obg) {
+            this.listSelected[index].orderTypeDefault = obg.orderTypeDefault;
         },
         onDeleteProperty(index) {
-
+            console.log(index);
+            this.listSelected.splice(index, 1);
         }
     }
 });

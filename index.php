@@ -24,7 +24,7 @@
                             v-for="(item, index) in config"
                             :key="index"
                             :value="item"
-                            :disabled="$parent.listSelected.hasOwnProperty(item.name)"
+                            :disabled="$parent.listSelected.hasOwnProperty(item)"
                     >
                         {{ item.title }}
                     </option>
@@ -32,7 +32,7 @@
             </div>
             <div class="col-2">
                 <div class="flex-center sort-icon" @click="changeOrder">
-                    <i v-if="(selected.orderTypeDefault === 'ASC') || (selected.orderTypeDefault === 'DESC')" :class="`fas fa-sort-amount-${(selected.orderTypeDefault === 'ASC') ? 'down' : 'up'}`"></i>
+                    <i v-if="visualOrder" :class="`fas fa-sort-amount-${typeOrder}`"></i>
                 </div>
             </div>
             <div class="col-1 align-center">
@@ -42,6 +42,8 @@
             </div>
         </div>
     </template>
+    
+    
     
     <div id="app">
         <div class="wrap">
@@ -55,16 +57,15 @@
                     </div>
                 </div>
                 <section>
-                    <template v-for="(item, index) in config">
+                    <template v-for="(item, index) in listSelected">
                         <proper
                                 :config="config"
                                 :key="index"
                                 :count="index+1"
-                                v-if="index+1 <= countRow"
-                                @show-add-btn="isNotDisabled = true"
+                                v-if="index+1 <= config.length"
                                 @add-selected-in-arr="addSelectedInArr(index, $event)"
-                                @delete-row-data="onDeleteProperty(index)"
                                 @change-data-order="onChangeDataOrder(index, $event)"
+                                @delete-row-data="onDeleteProperty(index)"
                         />
                     </template>
                 </section>
