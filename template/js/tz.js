@@ -1,6 +1,6 @@
 Vue.component('proper', {
     template: '#proper',
-    props: ['config', 'count'],
+    props: ['config', 'options', 'count'],
     data () {
         return {
             selected: '',
@@ -8,15 +8,18 @@ Vue.component('proper', {
     },
     methods: {
         checkSelected(obg) {
+            console.log();
             this.$emit('add-selected-in-arr', obg);  // добавляем в список выбранный объект
         },
         removeData() {
             this.$emit('delete-row-data');
         },
         changeOrder() {
-            console.log(this.selected);
             this.selected.orderTypeDefault = (this.selected.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
             this.$emit('change-data-order', this.selected);
+        },
+        disabledOption(name) {
+            return this.options.includes(name);
         }
     },
     computed: {
@@ -25,7 +28,7 @@ Vue.component('proper', {
         },
         typeOrder() {
             return (this.selected.orderTypeDefault === 'ASC') ? 'down' : 'up';
-        }
+        },
     }
 });
 
@@ -72,13 +75,9 @@ new Vue({
             }],
             isNotDisabled: true,
             listSelected: [],
+            options: [],
+            resultVisual: ''
         }
-    },
-    watch: {
-
-    },
-    computed: {
-
     },
     methods: {
         addProperty () {
@@ -88,7 +87,8 @@ new Vue({
                     "name": '',
                     "title": '',
                     "orderTypeDefault": '',
-                    "priority": ''
+                    "priority": '',
+                    "tempId": Date.now(),
                 }
             )
         },
@@ -98,13 +98,18 @@ new Vue({
             this.listSelected[index].title = obg.title;
             this.listSelected[index].orderTypeDefault = obg.orderTypeDefault;
             this.listSelected[index].priority = obg.priority;
+            this.options[index] = obg.name;
         },
         onChangeDataOrder(index, obg) {
             this.listSelected[index].orderTypeDefault = obg.orderTypeDefault;
         },
         onDeleteProperty(index) {
-            console.log(index);
+            (this.listSelected[index].name === '') ? this.isNotDisabled = true : null;
             this.listSelected.splice(index, 1);
+            this.options.splice(index, 1);
+        },
+        sort() {
+            this.resultVisual = this.listSelected;
         }
     }
 });

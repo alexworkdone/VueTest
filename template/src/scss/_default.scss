@@ -9,6 +9,10 @@ html {
     height: 100%;
 }
 
+select option:disabled {
+    background-color: darken($form-bg, 15%);
+}
+
 body {
     position: relative;
     min-width: 400px;
@@ -123,11 +127,3 @@ textarea {
 :focus::-webkit-input-placeholder {opacity: 0; text-overflow:ellipsis; color: $ph-normal; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
 :focus::-moz-placeholder          {opacity: 0; text-overflow:ellipsis; color: $ph-normal; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
 :focus:-ms-input-placeholder      {opacity: 0; text-overflow:ellipsis; color: $ph-normal; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-
-.has-error input::-webkit-input-placeholder {opacity: 1; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-.has-error input::-moz-placeholder          {opacity: 1; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-.has-error input:-ms-input-placeholder      {opacity: 1; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-
-.has-error input:focus::-webkit-input-placeholder {opacity: 0; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-.has-error input:focus::-moz-placeholder          {opacity: 0; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}
-.has-error input:focus:-ms-input-placeholder      {opacity: 0; text-overflow:ellipsis; color: $ph-error; -webkit-transition: opacity 0.3s ease; -o-transition: opacity 0.3s ease; transition: opacity 0.3s ease;}

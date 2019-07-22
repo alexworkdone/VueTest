@@ -24,7 +24,7 @@
                             v-for="(item, index) in config"
                             :key="index"
                             :value="item"
-                            :disabled="$parent.listSelected.hasOwnProperty(item)"
+                            :disabled="disabledOption(item.name)"
                     >
                         {{ item.title }}
                     </option>
@@ -60,9 +60,9 @@
                     <template v-for="(item, index) in listSelected">
                         <proper
                                 :config="config"
-                                :key="index"
+                                :options="options"
+                                :key="item.tempId"
                                 :count="index+1"
-                                v-if="index+1 <= config.length"
                                 @add-selected-in-arr="addSelectedInArr(index, $event)"
                                 @change-data-order="onChangeDataOrder(index, $event)"
                                 @delete-row-data="onDeleteProperty(index)"
@@ -71,7 +71,12 @@
                 </section>
                 <div class="row">
                     <div class="col-6 align-right">
-                        <button class="btn btn-big btn-success btn-icon-left" @click.prevent="addProperty" :disabled="!isNotDisabled">
+                        <button
+                                v-if="listSelected.length < config.length"
+                                class="btn btn-big btn-success btn-icon-left"
+                                @click.prevent="addProperty"
+                                :disabled="!isNotDisabled"
+                        >
                             <i class="fas fa-plus-circle"></i>
                             Add property
                         </button>
@@ -84,6 +89,7 @@
                 </div>
             </form>
         </div>
+        <pre>{{ resultVisual }}</pre>
     </div>
     
     <script src="/template/js/vue.js"></script>
