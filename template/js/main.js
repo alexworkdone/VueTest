@@ -77,15 +77,13 @@ new Vue({
                 return Object.keys(item).length;
             });
         },
-        onDeleteProperty(index, obj) {
+        onDeleteProperty(index) {
             if(this.listSelected[index].name === undefined){
                 this.isNotDisabled = true;
             }
             this.listSelected.splice(index, 1);
             this.changeArr();
-            //this.options[index] = obj.name;
             this.options.splice(index, 1);
-            console.log(this.options);
         },
         sort() {
             this.resultVisualTrue = !this.resultVisualTrue;
