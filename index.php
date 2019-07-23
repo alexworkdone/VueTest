@@ -20,14 +20,15 @@
             <div class="col-8">
                 <select v-model="selected" class="form-control"
                         @change="checkSelected(selected)">
-                    <option
-                            v-for="(item, index) in config"
-                            :key="index"
-                            :value="item"
-                            :disabled="disabledOption(item.name)"
-                    >
-                        {{ item.title }}
-                    </option>
+                    <template v-for="(item, index) in config">
+                        <option
+                                :key="index"
+                                v-if="disabledOption(item.name)"
+                                :value="item"
+                        >
+                            {{ item.title }}
+                        </option>
+                    </template>
                 </select>
             </div>
             <div class="col-2">
@@ -42,9 +43,7 @@
             </div>
         </div>
     </template>
-    
-    
-    
+
     <div id="app">
         <div class="wrap">
             <form>
@@ -58,21 +57,21 @@
                 </div>
                 <section>
                     <template v-for="(item, index) in listSelected">
-                        <proper
+                        <proper-item
                                 :config="config"
                                 :options="options"
                                 :key="item.tempId"
                                 :count="index+1"
                                 @add-selected-in-arr="addSelectedInArr(index, $event)"
                                 @change-data-order="onChangeDataOrder(index, $event)"
-                                @delete-row-data="onDeleteProperty(index)"
+                                @delete-row-data="onDeleteProperty(index, $event)"
                         />
                     </template>
                 </section>
                 <div class="row">
                     <div class="col-6 align-right">
                         <button
-                                v-if="listSelected.length < config.length"
+                                v-if="showAddButton"
                                 class="btn btn-big btn-success btn-icon-left"
                                 @click.prevent="addProperty"
                                 :disabled="!isNotDisabled"
@@ -83,16 +82,19 @@
                     </div>
                     <div class="col-6">
                         <button class="btn btn-big btn-general" @click.prevent="sort">
-                            Sort
+                            Show
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-        <pre>{{ resultVisual }}</pre>
+
+        <pre v-show="resultVisualTrue">{{ resultVisual }}</pre>
     </div>
-    
+
     <script src="template/js/vue.js"></script>
-    <script src="template/js/tz.js"></script>
+    <script src="template/js/row.js"></script>
+    <script src="template/js/main.js"></script>
+    
 </body>
 </html>
