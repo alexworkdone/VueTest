@@ -44,7 +44,7 @@ new Vue({
             isNotDisabled: true,
             listSelected: [],
             resultVisualTrue: false,
-            options: [],
+            listOptions: [],
             resultVisual: '',
         }
     },
@@ -57,11 +57,15 @@ new Vue({
                 }
             );
         },
-        addSelectedInArr(index, obj) {
-            this.$set(this.listSelected, index, { ...this.listSelected[index], ...obj });
+        addSelectedInArr(index, name) {
+            this.config.forEach(item => {
+                if (item.name === name) {
+                    this.$set(this.listSelected, index, {...this.listSelected[index], ...item});
+                }
+            });
+            this.listOptions.forEach( item => item.visible = true );
             this.changeArr();
             this.isNotDisabled = true;
-            this.$set(this.options, index, obj.name);
         },
         onChangeDataOrder(index, obj) {
             this.$set(this.listSelected, index, {
@@ -82,8 +86,8 @@ new Vue({
                 this.isNotDisabled = true;
             }
             this.listSelected.splice(index, 1);
+            this.listOptions.forEach( item => item.visible = true );
             this.changeArr();
-            this.options.splice(index, 1);
         },
         sort() {
             this.resultVisualTrue = !this.resultVisualTrue;
@@ -94,4 +98,9 @@ new Vue({
             return this.listSelected.length < this.config.length;
         },
     },
+    created: function (){
+        this.config.forEach(item => {
+            this.listOptions.push({"name": item.name, "visible": true});
+        });
+    }
 });

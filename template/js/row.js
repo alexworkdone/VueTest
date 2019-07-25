@@ -1,14 +1,14 @@
 const proper = {
     template: '#proper',
-    props: ['config', 'options', 'count'],
+    props: ['itemRow', 'listOptions', 'count', 'listSelected'],
     data () {
         return {
             selected: '',
         }
     },
     methods: {
-        disabledOption(name) {
-            return (!this.options.includes(name) || this.selected.name === name);
+        disabledOption(i, obj) {
+            return (this.itemRow.name === obj.name) ? obj.visible = false : obj.visible;
         },
         checkSelected(obj) {
             this.$emit('add-selected-in-arr', obj);
@@ -17,17 +17,17 @@ const proper = {
             this.$emit('delete-row-data');
         },
         changeOrder() {
-            this.selected.orderTypeDefault = (this.selected.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
-            this.$emit('change-data-order', this.selected);
+            this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
+            this.$emit('change-data-order', this.itemRow);
         },
 
     },
     computed: {
         visualOrder() {
-            return ((this.selected.orderTypeDefault === 'ASC') || (this.selected.orderTypeDefault === 'DESC'));
+            return ((this.itemRow.orderTypeDefault === 'ASC') || (this.itemRow.orderTypeDefault === 'DESC'));
         },
         typeOrder() {
-            return (this.selected.orderTypeDefault === 'ASC') ? 'down' : 'up';
+            return (this.itemRow.orderTypeDefault === 'ASC') ? 'down' : 'up';
         },
     }
 };
