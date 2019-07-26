@@ -62,7 +62,7 @@
                                 :list-selected="listSelected"
                                 :list-options="listOptions"
                                 :key="item.tempId"
-                                :count="index+1"
+                                :count="+index+1"
                                 @add-selected-in-arr="addSelectedInArr(index, $event)"
                                 @change-data-order="onChangeDataOrder(index, $event)"
                                 @delete-row-data="onDeleteProperty(index)"
@@ -72,7 +72,7 @@
                 <div class="row">
                     <div class="col-6 align-right">
                         <button
-                                v-if="showAddButton"
+                                v-if="removeAddBtn"
                                 class="btn btn-big btn-success btn-icon-left"
                                 @click.prevent="addProperty"
                                 :disabled="!isNotDisabled"

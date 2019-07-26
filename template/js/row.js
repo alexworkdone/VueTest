@@ -20,7 +20,6 @@ const proper = {
             this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
             this.$emit('change-data-order', this.itemRow);
         },
-
     },
     computed: {
         visualOrder() {
@@ -29,5 +28,8 @@ const proper = {
         typeOrder() {
             return (this.itemRow.orderTypeDefault === 'ASC') ? 'down' : 'up';
         },
+    },
+    created: function () {
+        this.selected = this.itemRow.name;
     }
 };
