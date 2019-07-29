@@ -17,8 +17,10 @@ const proper = {
             this.$emit('delete-row-data');
         },
         changeOrder() {
-            this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
-            this.$emit('change-data-order', this.itemRow);
+            if(!!this.selected){
+                this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
+                this.$emit('change-data-order', this.itemRow);
+            }
         },
     },
     computed: {
