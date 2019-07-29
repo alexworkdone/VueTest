@@ -70,7 +70,7 @@
                     </template>
                 </section>
                 <div class="row">
-                    <div class="col-6 align-right">
+                    <div class="col-6 col-md-12 align-right">
                         <button
                                 v-if="removeAddBtn"
                                 class="btn btn-big btn-success btn-icon-left"
@@ -81,16 +81,19 @@
                             Add property
                         </button>
                     </div>
-                    <div class="col-6">
-                        <button class="btn btn-big btn-general" @click.prevent="sort">
-                            Show
+                    <div class="col-6 col-md-12 align-right">
+                        <button :disabled="disabledSaveBtn" class="btn btn-big btn-general" @click.prevent="saveData">
+                            Save
+                        </button>
+                        <button :disabled="disabledSaveBtn" class="btn btn-big btn-info" @click.prevent="discardData">
+                            Discard
                         </button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <pre v-show="resultVisualTrue">{{ resultVisual }}</pre>
+        <pre :class="{ 'bg-save': disabledSaveBtn }">{{ resultVisual }}</pre>
     </div>
 
     <script src="template/js/vue.js"></script>

@@ -43,5 +43,11 @@
 
 pre {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
+    padding: 16px;
+    border-radius: 4px;
+
+    &.bg-save {
+        background-color: rgba(#f0f2f5, 0.5);
+    }
 }

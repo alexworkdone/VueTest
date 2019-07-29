@@ -43,10 +43,10 @@ new Vue({
             }],
             isNotDisabled: true,
             listSelected: [],
-            resultVisualTrue: false,
             listOptions: [],
             resultVisual: '',
             removeAddBtn: true,
+            localStorege: null,
         }
     },
     methods: {
@@ -91,37 +91,47 @@ new Vue({
             this.listOptions.forEach( item => item.visible = true );
             this.changeArr();
         },
-        sort() {
-            this.resultVisualTrue = !this.resultVisualTrue;
-            //let listAr = Object.values(parseObj);
-            console.log(this.listSelected);
+        saveData() {
             localStorage.setItem('listSelected', JSON.stringify(this.listSelected));
-            console.log(localStorage.getItem('listSelected'));
+            this.localStorege = null;
+            this.$set(this, "localStorege", JSON.stringify(this.listSelected));
         },
+        discardData(){
+            this.$set(this, "listSelected", JSON.parse(this.localStorege));
+
+            this.addArrayInResultVisualBox();
+        },
+        addArrayInResultVisualBox(){
+            let visualArr = JSON.parse(this.localStorege);
+            visualArr.filter(item => {
+                this.$delete(item, 'tempId');
+                return Object.keys(item).length;
+            });
+            this.$set(this, "resultVisual", visualArr);
+        },
+
     },
     computed: {
         showAddButton() {
             return this.removeAddBtn = this.listSelected.length < this.config.length;
         },
+        disabledSaveBtn() {
+            return (this.localStorege === JSON.stringify(this.listSelected));
+        },
     },
+
     created: function (){
         this.config.forEach(item => {
             this.listOptions.push({"name": item.name, "visible": true});
         });
 
         if(localStorage.getItem('listSelected')){
-            this.resultVisualTrue = true;
             this.removeAddBtn = true;
 
-            let parseObj = JSON.parse(localStorage.getItem('listSelected'));
-            this.$set(this, "listSelected", parseObj);
+            this.localStorege = localStorage.getItem('listSelected');
+            this.$set(this, "listSelected", JSON.parse(this.localStorege));
 
-            let visualArr = JSON.parse(localStorage.getItem('listSelected'));
-            visualArr.filter(item => {
-                this.$delete(item, 'tempId');
-                return Object.keys(item).length;
-            });
-            this.$set(this, "resultVisual", visualArr);
+            this.addArrayInResultVisualBox();
         }
     }
 });

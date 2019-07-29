@@ -39,3 +39,22 @@ $col-step: 12;
         margin-left: $calc;
     }
 }
+
+@media (max-width: 700px) {
+    @for $i from 1 through $col-step {
+        $calc: #{100% / 12 * $i};
+
+        .col-md-#{$i} {
+            flex: 0 0 $calc;
+            max-width: $calc;
+        }
+    }
+
+    @for $i from 1 through $col-step {
+        $calc: #{100% / 12 * $i};
+
+        .offset-md-#{$i} {
+            margin-left: $calc;
+        }
+    }
+}
