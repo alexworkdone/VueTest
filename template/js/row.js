@@ -17,8 +17,10 @@ const proper = {
             this.$emit('delete-row-data');
         },
         changeOrder() {
-            this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
-            this.$emit('change-data-order', this.itemRow);
+            if(!!this.selected){
+                this.itemRow.orderTypeDefault = (this.itemRow.orderTypeDefault === 'ASC') ? 'DESC' : 'ASC';
+                this.$emit('change-data-order', this.itemRow);
+            }
         },
     },
     computed: {
@@ -28,6 +30,14 @@ const proper = {
         typeOrder() {
             return (this.itemRow.orderTypeDefault === 'ASC') ? 'down' : 'up';
         },
+    },
+    watch: {
+        itemRow: {
+            handler(val){
+                return this.selected = this.itemRow.name;
+            },
+            deep: true
+        }
     },
     created: function () {
         this.selected = this.itemRow.name;

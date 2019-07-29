@@ -47,6 +47,7 @@ new Vue({
             resultVisual: '',
             removeAddBtn: true,
             localStorege: null,
+            hasError: false,
         }
     },
     methods: {
@@ -79,6 +80,9 @@ new Vue({
             const arr = JSON.parse(JSON.stringify(this.listSelected));
             let arrMas = Object.values(arr);
             this.resultVisual = arrMas.filter(item => {
+                if(!!item.isError){
+                    this.$delete(item, 'isError');
+                }
                 this.$delete(item, 'tempId');
                 return Object.keys(item).length;
             });
@@ -92,14 +96,33 @@ new Vue({
             this.changeArr();
         },
         saveData() {
-            localStorage.setItem('listSelected', JSON.stringify(this.listSelected));
-            this.localStorege = null;
-            this.$set(this, "localStorege", JSON.stringify(this.listSelected));
+            this.validationPropertys();
+            if(!this.hasError){
+                localStorage.setItem('listSelected', JSON.stringify(this.listSelected));
+                this.localStorege = null;
+                this.$set(this, "localStorege", JSON.stringify(this.listSelected));
+            }
+        },
+        validationPropertys(){
+            let error = false;
+            this.listSelected.forEach(item => {
+                if(item.name === undefined){
+                    this.$set(item, 'isError', true);
+                    error = true;
+                } else {
+                    this.$delete(item, 'isError');
+                }
+            });
+            this.hasError = error;
         },
         discardData(){
             this.$set(this, "listSelected", JSON.parse(this.localStorege));
-
             this.addArrayInResultVisualBox();
+            this.listSelected.forEach(item => {
+                for(let i=0; i<this.listOptions.length; i++){
+                    (item.name === this.listOptions[i].name) ? this.listOptions[i].visible = false : this.listOptions[i].visible = true;
+                }
+            });
         },
         addArrayInResultVisualBox(){
             let visualArr = JSON.parse(this.localStorege);
@@ -109,15 +132,24 @@ new Vue({
             });
             this.$set(this, "resultVisual", visualArr);
         },
-
     },
     computed: {
+        title(){
+            return this.localStorege === JSON.stringify(this.listSelected) ? 'Add' : 'Edit'
+        },
         showAddButton() {
             return this.removeAddBtn = this.listSelected.length < this.config.length;
         },
         disabledSaveBtn() {
             return (this.localStorege === JSON.stringify(this.listSelected));
         },
+        disabledBtn(){
+            if(this.localStorege.length > 3){
+                return (this.localStorege === JSON.stringify(this.listSelected));
+            } else {
+                return true;
+            }
+        }
     },
 
     created: function (){

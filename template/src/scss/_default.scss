@@ -48,6 +48,10 @@ noscript {
     clear: both;
 }
 
+.relative {
+    position: relative;
+}
+
 .hide {
     display: none !important;
 }
@@ -70,19 +74,20 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 6rem;
+    font-size: 2.4rem;
+    font-weight: 700;
 }
 
 h2 {
-    font-size: 5rem;
+    font-size: 2rem;
 }
 
 h3 {
-    font-size: 3rem;
+    font-size: 1.6rem;
 }
 
 h4 {
-    font-size: 2.4rem;
+    font-size: 1.4rem;
 }
 
 li {
@@ -105,6 +110,10 @@ img {
 
 textarea {
     resize: none;
+}
+
+select:focus {
+    outline: none;
 }
 
 .responsive-img {

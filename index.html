@@ -11,13 +11,13 @@
 
 <body>
     <template id="proper">
-        <div class="row row-list">
+        <div class="row row-list" :class="{'has-error': 'isError' in itemRow}">
             <div class="col-1">
                 <div class="flex-center">
                     {{ count }}
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-8 relative">
                 <select v-model="selected" class="form-control"
                         @change="checkSelected(selected)">
                     <template v-for="(item, index) in listOptions">
@@ -30,6 +30,7 @@
                         </option>
                     </template>
                 </select>
+                <div class="error">Not valid</div>
             </div>
             <div class="col-2">
                 <div class="flex-center sort-icon" @click="changeOrder">
@@ -41,11 +42,13 @@
                    <i class="fas fa-times"></i>
                 </div>
             </div>
+            <!-- <div class="alert-error">Error in {{ count }} row, select please</div> -->
         </div>
     </template>
 
     <div id="app">
         <div class="wrap">
+            <h1 class="align-center">{{ title }} page</h1>
             <form>
                 <div class="row">
                     <div class="col-8 offset-1">
@@ -85,7 +88,7 @@
                         <button :disabled="disabledSaveBtn" class="btn btn-big btn-general" @click.prevent="saveData">
                             Save
                         </button>
-                        <button :disabled="disabledSaveBtn" class="btn btn-big btn-info" @click.prevent="discardData">
+                        <button :disabled="disabledBtn" class="btn btn-big btn-info" @click.prevent="discardData">
                             Discard
                         </button>
                     </div>
