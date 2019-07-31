@@ -144,7 +144,7 @@ new Vue({
             return (this.localStorege === JSON.stringify(this.listSelected));
         },
         disabledBtn(){
-            if(this.localStorege.length > 3){
+            if(this.localStorege !== null && this.localStorege.length > 3){
                 return (this.localStorege === JSON.stringify(this.listSelected));
             } else {
                 return true;
